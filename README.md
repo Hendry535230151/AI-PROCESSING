@@ -5,3 +5,6 @@ This project is an AI-driven system designed to search, retrieve, and organize d
     npm install mysql2
     nom install express
     npm install dotenv
+    npm install --save-dev nodemon
+
+To run this project please enter "nodemon server.js" in terminal.
