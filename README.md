@@ -6,5 +6,6 @@ This project is an AI-driven system designed to search, retrieve, and organize d
     nom install express
     npm install dotenv
     npm install --save-dev nodemon
+    npm install openai
 
 To run this project please enter "nodemon server.js" in terminal.
