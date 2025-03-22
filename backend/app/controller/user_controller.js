@@ -39,6 +39,17 @@ const createUser = async (req, res) => {
     }
 };
 
+const loginUser = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const user = await userService.loginUser(email, password);
+        res.status(200).json({ message: 'Success to login', token: user});
+    }
+    catch (err) {
+        res.status(err.statusCode || 500).json({ error: err.message });
+    }
+}
+
 const updateUserPassword = async (req, res) => {
     try {
         const { email, password, passwordConfirm } = req.body;
@@ -63,6 +74,7 @@ module.exports = {
     getUsers,
     getUserById,
     getUserByName,
+    loginUser,
     createUser,
     updateUserPassword,
     deleteUser

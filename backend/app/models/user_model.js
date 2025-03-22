@@ -51,7 +51,7 @@ const getUserByName = (name) => {
     });
 };
 
-const getUserEmail = (email) => {
+const getUserByEmail = (email) => {
     return new Promise((resolve, reject) => {
         const query = 'SELECT * FROM users WHERE email = ?';
         db.query(query, [email], (err ,result) => {
@@ -62,7 +62,7 @@ const getUserEmail = (email) => {
                 resolve(null);
             }
             else {
-                resolve(result);
+                resolve(result[0]);
             }
         });
     });
@@ -123,7 +123,7 @@ module.exports = {
     getUsers,
     getUserById,
     getUserByName,
-    getUserEmail,
+    getUserByEmail,
     createUser,
     updateUserPassword,
     deleteUser,
