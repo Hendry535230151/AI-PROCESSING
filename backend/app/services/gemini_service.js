@@ -11,7 +11,6 @@ const queryGemini = async (user_id, file_id, message) => {
         if (!user_id) {
             errors.push('User id is required');
         }
-        console.log(user_id)
         if (!message) {
             errors.push('Message is required');
         }
@@ -29,7 +28,6 @@ const queryGemini = async (user_id, file_id, message) => {
         const response = result.response.text();
         const status = 200;
         const log = await geminiModel.createAiLog(user_id, file_id, message, response, status);
-        console.log(log)
 
         return response;
     } catch (err) {

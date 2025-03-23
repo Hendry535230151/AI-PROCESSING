@@ -5,9 +5,9 @@ const chatWithGemini = async (req, res) => {
     const { file_id, message } = req.body;
     try {
         const response = await queryGemini(user_id, file_id, message);
-        res.json({ success: true, response });
+        res.json({ message: response });
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.status(500).json({ error: error.message });
     }
 };
 

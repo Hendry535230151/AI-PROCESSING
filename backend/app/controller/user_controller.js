@@ -32,7 +32,7 @@ const getUserByName = async (req, res) => {
 const createUser = async (req, res) => {
     try {
         const { username, email, password, passwordConfirm } = req.body;
-        const user = await userService.createUser(username, email, password, passwordConfirm);
+        await userService.createUser(username, email, password, passwordConfirm);
         res.status(201).json({ message: "Success to create user"});
     } catch (err) {
         res.status(err.statusCode || 500).json({ error: err.message });
@@ -42,7 +42,7 @@ const createUser = async (req, res) => {
 const updateUserPassword = async (req, res) => {
     try {
         const { email, password, passwordConfirm } = req.body;
-        const user = await userService.updateUserPassword(email, password, passwordConfirm);
+        await userService.updateUserPassword(email, password, passwordConfirm);
         res.status(200).json({ message: 'Success to update password'});
     } catch (err) {
         res.status(err.statusCode || 500).json({ error: err.message });
