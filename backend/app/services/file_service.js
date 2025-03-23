@@ -107,20 +107,20 @@ const renameFile = async (id, newName) => {
     }
 };
 
-const changeFileToOTherDirectory = async (directory_id, owner_id)  => {
+const changeFileToOtherDirectory = async (directory_id, id)  => {
     try {
         const errors = [];
         if (!directory_id) {
             errors.push('Directory id is required');
         }
-        if (!owner_id) {
+        if (!id) {
             errors.push('File id is required');
         }
         if (errors.length > 0) {
             throw new CustomError(errors, 400);
         }
 
-        const file = await fileModel.changeFileToOTherDirectory(directory_id, owner_id);
+        const file = await fileModel.changeFileToOTherDirectory(directory_id, id);
         if (!file) {
             throw new CustomError(`Failed to change direcotry with file id: ${id} `, 500);
         }
@@ -158,6 +158,6 @@ module.exports = {
     getFileByDirectory,
     createFile,
     renameFile,
-    changeFileToOTherDirectory,
+    changeFileToOtherDirectory,
     deleteFile,
 };
