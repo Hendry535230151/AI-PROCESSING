@@ -1,12 +1,13 @@
 const db = require('../config/db');
+const { updateUserPassword } = require('./user_model');
 
-const getUsers = () => {
+const getFiles = () => {
     return new Promise((resolve, reject) => {
-        const query = 'SELECT * FROM users';
+        const query = 'SELECT * FROM files'
         db.query(query, (err, result) => {
             if (err) {
                 return reject(err);
-            } 
+            }
             if (!result || result.length === 0) {
                 resolve(null);
             }
@@ -17,9 +18,9 @@ const getUsers = () => {
     });
 };
 
-const getUserById = (id) => {
+const getFileById = (id) => {
     return new Promise((resolve, reject) => {
-        const query = 'SELECT * FROM users WHERE id = ?';
+        const query = 'SELECT * FROM files WHERE id = ?'
         db.query(query, [id], (err, result) => {
             if (err) {
                 return reject(err);
@@ -34,10 +35,10 @@ const getUserById = (id) => {
     });
 };
 
-const getUserByName = (name) => {
+const getFileByDirectory = (directory_id) => {
     return new Promise((resolve, reject) => {
-        const query = 'SELECT * FROM users WHERE username LIKE ?'
-        db.query(query, [`%${name}%`], (err, result) => {
+        const query = 'SELECT * FROM files WHERE directory_id = ?'
+        db.query(query, [directory_id], (err, result) => {
             if (err) {
                 return reject(err);
             }
@@ -51,80 +52,81 @@ const getUserByName = (name) => {
     });
 };
 
-const getUserByEmail = (email) => {
+const createFile = (owner_id, directory_id, filename, file) => {
     return new Promise((resolve, reject) => {
-        const query = 'SELECT * FROM users WHERE email = ?';
-        db.query(query, [email], (err ,result) => {
+        const fileBuffer = Buffer.from(file, 'base64');
+        const query = 'INSERT INTO files (owner_id, directory_id, filename, file) VALUES (?, ?, ?, ?)';
+        db.query(query, [owner_id, directory_id, filename, fileBuffer], (err, result) => {
             if (err) {
                 return reject(err);
             }
-            if (!result || result.length === 0) {
+            if (!result || result.affectedRows === 0) {
                 resolve(null);
             }
             else {
-                resolve(result[0]);
+                resolve(result);
             }
         });
     });
-} ;
+};
 
-const createUser = (username, email, password) => {
+const renameFile = (id, newName) => {
     return new Promise((resolve, reject) => {
-        const query = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
-        db.query(query, [username, email, password], (err, result) => {
+        const query = 'UPDATE files SET filename = ? WHERE id = ?';
+        db.query(query, [newName, id], (err, result) => {
             if (err) {
                 return reject(err);
             }
             if (!result || result.affectedRows === 0) {
-                resolve(false);
+                resolve(null);
             }
             else {
-                resolve(true);
+                resolve(result);
             }
         });
     });
 };
 
-const updateUserPassword = (email, password) => {
+const changeFileToOTherDirectory = (directory_id, id) => {
     return new Promise((resolve, reject) => {
-        const query = 'UPDATE users SET password = ? WHERE email = ?';
-        db.query(query, [password, email], (err, result) => {
+        const query = 'UPDATE files SET directory_id = ? WHERE id  = ?';
+        db.query(query, [directory_id, id], (err, result) => {
             if (err) {
-                return reject(err)
+                return reject(err);
             }
             if (!result || result.affectedRows === 0) {
-                resolve(false);
+                resolve(null);
             }
             else {
-                resolve(true);
+                resolve(result);
             }
         });
     });
 };
 
-const deleteUser = (id) => {
+const deleteFile = (id) => {
     return new Promise((resolve, reject) => {
-        const query = 'DELETE FROM users WHERE id = ?';
+        const query = 'DELETE FROM files WHERE id = ?';
         db.query(query, [id], (err, result) => {
             if (err) {
-                return reject(err)
+                return reject(err);
             }
             if (!result || result.affectedRows === 0) {
-                resolve(false);
+                resolve(null);
             }
             else {
-                resolve(true);
+                resolve(result);
             }
         });
     });
 };
 
 module.exports = {
-    getUsers,
-    getUserById,
-    getUserByName,
-    getUserByEmail,
-    createUser,
-    updateUserPassword,
-    deleteUser,
+    getFiles,
+    getFileById,
+    getFileByDirectory,
+    createFile,
+    renameFile,
+    changeFileToOTherDirectory,
+    deleteFile,
 };

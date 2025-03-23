@@ -5,7 +5,7 @@ const createAiLog = (user_id, file_id, message, response, response_status) => {
         const query = 'INSERT INTO gemini (user_id, file_id, message, response, response_status) VALUES (?, ?, ?, ?, ?)';
         db.query(query, [user_id, file_id, message, response, response_status], (err, result) => {
             if (err) {
-                reject(err);
+                return reject(err);
             }
             if (!result || result.affectedRows === 0) {
                 resolve(false);
