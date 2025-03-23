@@ -57,7 +57,7 @@ const changeFileToOtherDirectory = async (req, res) => {
     try {
         const { id } = req.params;
         const { directory_id } = req.body;
-        await fileService.changeFileToOTherDirectory(directory_id, id);
+        await fileService.changeFileToOtherDirectory(directory_id, id);
         res.status(200).json({ message: 'Success to change file directory' });
     } catch (err) {
         res.status(err.statusCode || 500).json({ error: err.message });
