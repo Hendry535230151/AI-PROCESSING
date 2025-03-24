@@ -3,7 +3,7 @@ This project is an AI-driven system designed to search, retrieve, and organize d
 
 ## Used package
     npm install mysql2
-    nom install express
+    npm install express
     npm install dotenv
     npm install --save-dev nodemon
     npm install @google/generative-ai
